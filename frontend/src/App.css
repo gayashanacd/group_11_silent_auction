@@ -36,3 +36,42 @@
     transform: rotate(360deg);
   }
 }
+
+.auction-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+
+.auction-detail {
+  padding: 20px;
+}
+
+.auction-detail h1 {
+  margin-bottom: 20px;
+}
+
+.auction-detail img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.auction-detail ul {
+  list-style: none;
+  padding: 0;
+}
+
+.auction-detail ul li {
+  padding: 5px 0;
+}
+
+.auction-detail ul li strong {
+  margin-right: 10px;
+}
+
+.auction-detail .btn-primary {
+  margin-top: 20px;
+}
