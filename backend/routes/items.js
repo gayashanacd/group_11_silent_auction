@@ -5,8 +5,10 @@ import mongoose from 'mongoose';
 const itemSchema = new mongoose.Schema({
     name: { type: String, required: true },
     decription: { type: String, required: false },
+    metaData: {type: Object, required: false},
     imgUrl: { type: String, required: false },
-    startBid: { type: Number, required: false }
+    startBid: { type: Number, required: false },
+    createdAt: { type: Date, default: Date.now }
 });
 
 const Item = mongoose.model("Item", itemSchema);
@@ -30,6 +32,7 @@ router.route("/newitem")
         const name = req.body.name;
         const decription = req.body.decription;
         const imgUrl = req.body.imgUrl;
+        const metaData = req.body.metaData;
         const startBid = req.body.startBid;
 
         // create a new item object 
@@ -37,13 +40,14 @@ router.route("/newitem")
             name,
             decription,
             imgUrl,
+            metaData,
             startBid
         });
 
         // save the new object (newItem)
         newItem
             .save()
-            .then(() => res.json("Iten added!"))
+            .then(() => res.json("Item added!"))
             .catch((err) => res.status(400).json("Error: " + err));
     });
 
@@ -53,6 +57,8 @@ router.route("/item/:id")
             .then((item) => {
                 item.name = req.body.name;
                 item.decription = req.body.decription;
+                item.imgUrl = req.body.imgUrl;
+                item.metaData = req.body.metaData;
 
                 item
                     .save()

@@ -16,9 +16,11 @@ app.use(express.json());
 
 // define Schema Class
 import items from './routes/items.js'
+import bids from './routes/bids.js'
 
 // Mount the router middleware at a specific path
 app.use('/api', items);
+app.use('/api', bids);
 
 // Connect to MongoDB
 const URI = process.env.ATLAS_URI;
