@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, Container, Row, Col, Button } from 'react-bootstrap';
+import AuctionItemFooter from '../components/AuctionItemFooter';
 
 const items = [
   {
@@ -92,6 +93,7 @@ function AuctionDetail() {
               <Button variant="primary" className="mt-3">Add To My Watchlist</Button>
             </Col>
           </Row>
+          <AuctionItemFooter />
         </>
       ) : (
         <p>Auction not found!</p>
