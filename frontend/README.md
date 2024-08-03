@@ -9,7 +9,6 @@ To get started with the project, follow these steps:
 1. Clone the repository:
    ```sh
    git clone https://github.com/gayashanacd/group_11_silent_auction.git
-   cd your-repository
 2. Navigate to the project directory:
     ```bash
     cd frontend
@@ -21,7 +20,7 @@ To get started with the project, follow these steps:
     ```bash
     npm install mongoose express cors body-parser react-bootstrap bootstrap
     ```  
-4. Set up the environment variables by creating a .env file in the root of your project:
+4. Set up the environment variables by creating a .env file in the root of your project:\
    REACT_APP_API_BASE_URL=http://localhost:5000
 
 
