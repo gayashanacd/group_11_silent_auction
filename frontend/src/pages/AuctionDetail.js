@@ -1,8 +1,7 @@
-import React, { useEffect, useState }  from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, Container, Row, Col, Button, Form , Table } from 'react-bootstrap';
+import { Card, Container, Row, Col, Button, Form, Table } from 'react-bootstrap';
 import AuctionItemFooter from '../components/AuctionItemFooter';
-
 
 function AuctionDetail() {
   const { id } = useParams();
@@ -74,7 +73,7 @@ function AuctionDetail() {
           <Row className="mt-4">
             <Col md={6}>
               <Card>
-                <Card.Img variant="top" src={ `${process.env.PUBLIC_URL}/images/${ item.imgUrl}` } alt={item.name} />
+                <Card.Img variant="top" src={`${process.env.PUBLIC_URL}/images/${item.imgUrl}`} alt={item.name} />
               </Card>
             </Col>
             <Col md={6}>
@@ -159,6 +158,29 @@ function AuctionDetail() {
               >
                 Place Bid
               </Button>
+            </Col>
+          </Row>
+          <Row className="mt-4">
+            <Col>
+              <h3>Bid History</h3>
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>Bidder Name</th>
+                    <th>Bid Amount</th>
+                    <th>Contact Number</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {bids.sort((a, b) => b.bidAmount - a.bidAmount).map((bid, index) => (
+                    <tr key={index}>
+                      <td>{bid.bidderName}</td>
+                      <td>${bid.bidAmount.toFixed(2)}</td>
+                      <td>{bid.contactNumber}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
             </Col>
           </Row>
           <AuctionItemFooter />
