@@ -74,7 +74,7 @@ function AuctionDetail() {
           <Row className="mt-4">
             <Col md={6}>
               <Card>
-                <Card.Img variant="top" src={item.imgUrl} alt={item.name} />
+                <Card.Img variant="top" src={ `${process.env.PUBLIC_URL}/images/${ item.imgUrl}` } alt={item.name} />
               </Card>
             </Col>
             <Col md={6}>

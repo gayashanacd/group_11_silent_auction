@@ -61,7 +61,7 @@ function AuctionItemFooter() {
                     {chunk.map(item => (
                       <Col md={3} key={item._id}>
                         <Card className="footer-card">
-                          <Card.Img variant="top" src={item.imgUrl} alt={item.name} className="footer-card-img" />
+                          <Card.Img variant="top" src={ `${process.env.PUBLIC_URL}/images/${ item.imgUrl }` } alt={item.name} className="footer-card-img" />
                           <Card.Body className="footer-card-body">
                             <Card.Title>{item.name}</Card.Title>
                             <Card.Text>
