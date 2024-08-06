@@ -1,53 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button, Carousel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-
-const footerData = [
-  {
-    id: 1,
-    title: "Item 1",
-    closingTime: "2:55 PM",
-    currentBid: "$198.00",
-    image: "/images/car1.jpg",
-    link: "/auction/1"
-  },
-  {
-    id: 2,
-    title: "Item 2",
-    closingTime: "3:40 PM",
-    currentBid: "$490.00",
-    image: "/images/car2.jpg",
-    link: "/auction/2"
-  },
-  {
-    id: 3,
-    title: "Item 3",
-    closingTime: "4:30 PM",
-    currentBid: "$150.00",
-    image: "/images/car3.jpg",
-    link: "/auction/3"
-  },
-  {
-    id: 4,
-    title: "Item 4",
-    closingTime: "5:00 PM",
-    currentBid: "$200.00",
-    image: "/images/car1.jpg",
-    link: "/auction/4"
-  },
-  {
-    id: 5,
-    title: "Item 5",
-    closingTime: "6:15 PM",
-    currentBid: "$300.00",
-    image: "/images/car2.jpg",
-    link: "/auction/5"
-  },
-  // Add more items as needed
-];
+import '../AuctionItemFooter.css'; 
 
 function AuctionItemFooter() {
+  const [footerData, setFooterData] = useState([]);
   const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/api/getitems`)
+      .then((response) => response.json())
+      .then((items) => {
+        // Fetch bids for each item and calculate the highest bid
+        const fetchBidsPromises = items.map(item =>
+          fetch(`${process.env.REACT_APP_API_BASE_URL}/api/getbidsforitem?itemId=${item._id}`)
+            .then(response => response.json())
+            .then(bids => {
+              const highestBid = bids.length > 0 ? Math.max(...bids.map(bid => bid.bidAmount)) : item.startBid;
+              return { ...item, highestBid };
+            })
+        );
+
+        Promise.all(fetchBidsPromises)
+          .then(itemsWithBids => {
+            setFooterData(itemsWithBids);
+          })
+          .catch(error => console.error('Error fetching bids:', error));
+      })
+      .catch((error) => console.error('Error fetching footer data:', error));
+  }, []);
 
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
@@ -78,16 +59,15 @@ function AuctionItemFooter() {
                 <Carousel.Item key={idx}>
                   <Row>
                     {chunk.map(item => (
-                      <Col md={3} key={item.id}>
-                        <Card>
-                          <Card.Img variant="top" src={item.image} alt={item.title} />
-                          <Card.Body>
-                            <Card.Title>{item.title}</Card.Title>
+                      <Col md={3} key={item._id}>
+                        <Card className="footer-card">
+                          <Card.Img variant="top" src={item.imgUrl} alt={item.name} className="footer-card-img" />
+                          <Card.Body className="footer-card-body">
+                            <Card.Title>{item.name}</Card.Title>
                             <Card.Text>
-                              Closing: {item.closingTime}<br />
-                              Current Bid: {item.currentBid}
+                              Highest Bid: ${item.highestBid}
                             </Card.Text>
-                            <Link to={item.link}>
+                            <Link to={`/auction/${item._id}`}>
                               <Button variant="primary">Bid Now</Button>
                             </Link>
                           </Card.Body>
@@ -98,7 +78,6 @@ function AuctionItemFooter() {
                 </Carousel.Item>
               ))}
             </Carousel>
-            {/*
             <a
               className="carousel-control-prev"
               href="#"
@@ -116,7 +95,7 @@ function AuctionItemFooter() {
             >
               <span className="carousel-control-next-icon" aria-hidden="true"></span>
               <span className="sr-only">Next</span>
-            </a>*/}
+            </a>
           </Col>
         </Row>
       </Container>

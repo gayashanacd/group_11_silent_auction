@@ -6,11 +6,11 @@ function AuctionList({ items }) {
     <div className="auction-list">
       {items.map(item => (
         <AuctionItem 
-          key={item.id}
-          id={item.id}
-          title={item.title}
-          description={item.description}
-          image={item.image}
+          key={item._id}
+          id={item._id}
+          title={item.name}
+          description={item.decription}
+          image={item.imgUrl}
         />
       ))}
     </div>

@@ -26,10 +26,15 @@ router.route("/getbidsforitem")
         if (!itemId) {
             res.status(400).send('itemId query parameter is required');
         }
-
+        /*
         Bid.find({ itemId: new mongoose.Types.ObjectId(itemId) })
             .then((items) => res.json(items))
             .catch((err) => res.status(400).json("Error: " + err));
+            */
+            Bid.find({ itemId: itemId })
+            .then((items) => res.json(items))
+            .catch((err) => res.status(400).json("Error: " + err));   
+
     });
 
 router.route("/newbid")
